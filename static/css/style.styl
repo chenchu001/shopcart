@@ -1,0 +1,212 @@
+[v-cloak]
+    display: none
+.shopcart
+    position: fixed
+    left: 0
+    bottom: 0
+    z-index: 50
+    width: 100%
+    height: 48px
+    background: #000
+    .content
+        display: flex
+        background: #141d27
+        .content-left
+            flex: 1
+            .logo-wrapper
+                display: inline-block
+                position: relative
+                width: 56px
+                height: 56px
+                box-sizing: border-box
+                border-radius: 50%
+                background: #141d27
+                top: -10px
+                margin: 0 12px
+                padding: 6px
+                .num
+                    position: absolute
+                    top: 0
+                    right: 0
+                    width: 24px
+                    height: 16px
+                    line-height: 16px
+                    text-align: center
+                    border-radius: 16px
+                    font-size: 9px
+                    font-weight: 400
+                    color: #fff
+                    background: #f01414
+                    -webkit-box-shadow: 0 4px 8px 0 rgba(0,0,0,0.4)
+                    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.4)
+                .logo
+                    width: 100%
+                    height: 100%
+                    border-radius: 50%
+                    position: relative
+                    background: #2b343c
+                    &.active
+                        background: #00a0dc
+                    .logo-icon
+                        background: url('../images/shop.png') no-repeat
+                        width: 24px
+                        height: 24px
+                        display: block
+                        background-size: 100% 100%
+                        position: absolute
+                        top: 10px
+                        left: 10px
+                        &.active
+                            background: url('../images/shop-active.png') no-repeat
+                            background-size: 100% 100%
+            .price
+                display: inline-block
+                vertical-align: top
+                margin-top: 12px
+                line-height: 24px
+                padding-right: 12px
+                -webkit-box-sizing: border-box
+                box-sizing: border-box
+                border-right: 1px solid rgba(255,255,255,0.1)
+                font-size: 16px
+                font-weight: 700
+                color: rgba(255,255,255,0.4)
+            .desc
+                display: inline-block
+                vertical-align: top
+                line-height: 24px
+                margin: 12px 0 0 12px
+                color: rgba(255,255,255,0.4)
+                font-size: 10px                      
+        .content-right
+            width: 105px
+            flex: 0 0 105px
+            .pay
+                color: #fff
+                height: 48px
+                line-height: 48px
+                text-align: center
+                font-size: 12px
+                background: #2b333b
+                &.active
+                    background: #00b43c
+    .ball-container
+        .ball
+            position: fixed
+            left: 32px
+            bottom: 22px
+            z-index: 200
+            transition: all .4s cubic-bezier(0.49,-0.29,0.75,0.41)
+            .inner
+                width: 16px
+                height: 16px
+                border-radius: 50%
+                background: #00a0dc
+                -webkit-transition: all 0.4s linear
+                transition: all 0.4s linear
+        
+.food 
+    position: fixed
+    left: 0
+    top: 0
+    bottom: 48px
+    z-index: 30
+    width: 100%
+    background: #fff
+    .food-content
+        .image-header
+            position: relative
+            width: 100%
+            height: 0
+            padding-bottom: 100%
+            img
+                width: 100%
+        .content
+            padding: 18px
+            position: relative
+            .title
+                line-height: 14px
+                margin-bottom: 8px
+                font-size: 14px
+                font-weight: 700
+                color: #07111b
+            .detail
+                margin-bottom: 18px
+                line-height: 10px
+                height: 10px
+                font-size: 0
+                .sell-count,.rating
+                    font-size: 10px
+                    color: #93999f
+                .sell-count
+                    margin-right: 12px
+            .price
+                font-weight: 700
+                .now
+                    margin-right: 8px
+                    font-size: 14px
+                    color: #f01414
+            .buy
+                position: absolute
+                right: 18px
+                bottom: 18px
+                z-index: 10
+                height: 24px
+                line-height: 24px
+                padding: 0 12px
+                -webkit-box-sizing: border-box
+                box-sizing: border-box
+                font-size: 10px
+                border-radius: 12px
+                color: #fff
+                background: #00a0dc
+                -webkit-transition: all 0.4s linear
+                transition: all 0.4s linear
+                &.fade-enter-active,&.fade-leave-active
+                    opacity: 1
+                &.fade-enter,&.fade-leave-to
+                    opacity: 0
+            .cartcontrol-wrapper
+                position: absolute
+                right: 12px
+                bottom: 12px
+                .cartcontrol
+                    font-size: 0
+                    .cart-decrease
+                        display: inline-block
+                        padding: 6px
+                        transition: all .4s linear
+                        -webkit-transition: all .4s linear
+                        img
+                            width: 24px
+                            height: 24px
+                            transition: all .4s linear
+                            -webkit-transition: all .4s linear
+                            tramsform: rotate(0deg)
+                            -webkit-tramsform: rotate(0deg)
+                        &.move-enter-active,&.move-leave-active
+                            opacity: 1
+                            transfrom: translate3D(0,0,0)
+                            -webkit-transfrom: translate3D(0,0,0)
+                        &.move-enter,&.move-leave-to
+                            opacity: 0
+                            transform: translate3D(24px,0,0)
+                            -webkit-transform: translate3D(24px,0,0)
+                            img
+                                transform: rotate(180deg)
+                                -webkit-transform: rotate(180deg)
+                    .cart-count
+                        display: inline-block
+                        vertical-align: top
+                        width: 12px
+                        padding-top: 6px
+                        line-height: 24px
+                        text-align: center
+                        font-size: 10px
+                        color: #93999f
+                    .cart-add
+                        display: inline-block
+                        padding: 6px
+                        img
+                            width: 24px
+                            height: 24px

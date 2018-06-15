@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+        <title>js实现购物车特效</title>
+        <link rel="stylesheet" type="text/css" href="static/css/reset.css" />
+        <link rel="stylesheet" type="text/css" href="static/css/style.css" />
+    </head>
+    <body>
+        <div id="app">
+            <div class="food">
+                <div class="food-content">
+                    <div class="image-header">
+                        <img src="http://fuss10.elemecdn.com/c/cd/c12745ed8a5171e13b427dbc39401jpeg.jpeg?imageView2/1/w/750/h/750" alt="" />
+                    </div>
+                    <div class="content">
+                        <h1 class="title">皮蛋瘦肉粥</h1>
+                        <div class="detail">
+                            <span class="sell-count">月售229份</span>
+                            <span class="rating">好评率100%</span>
+                        </div>
+                        <div class="price">
+                            <span class="now">￥10</span>
+                        </div>
+                        <transition name="fade">
+                            <div class="buy" @click="addFirst" v-show="!food.count || food.count === 0">加入购物车</div>
+                        </transition>
+                        <div class="cartcontrol-wrapper">
+                            <div class="cartcontrol" v-cloak>
+                                <transition name="move">
+                                    <div class="cart-decrease" v-show="food.count > 0" @click.stop.prevent="decreaseCart">
+                                        <img src="static/images/cart-decrease-icon.png" alt="" />
+                                    </div>
+                                </transition>
+                                <div class="cart-count">{{food.count}}</div>
+                                <div class="cart-add" @click="addFirst">
+                                    <img src="static/images/cart-add-icon.png" alt="" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 底部购物车 -->
+            <div class="shopcart">
+                <div class="content">
+                    <div class="content-left">
+                        <div class="logo-wrapper">
+                            <div class="logo" :class="{'active': food.count}">
+                                <i class="logo-icon" :class="{'active': food.count}"></i>
+                            </div>
+                            <div class="num" v-show="food.count" v-cloak>{{food.count}}</div>
+                        </div>
+                        <div class="price" v-cloak>￥{{totalPrice}}元</div>
+                        <div class="desc">另需配送费￥4元</div>
+                    </div>
+                    <div class="content-right">
+                        <div class="pay" v-cloak :class="{active: this.food.count * 10 > 19}">{{pay}}</div>
+                    </div>
+                </div>
+                <!-- 小球 -->
+                <div class="ball-container" v-cloak>
+                    <transition  v-on:before-enter="beforeEnter" v-on:enter="enter" v-on:after-enter="afterEnter" v-for="(ball, index) in balls" :key="index"> 
+                        <div class="ball" v-show="ball.show">
+                            <div class="inner inner-hook"></div>
+                        </div>
+                    </transition>
+                </div>
+            </div>
+        </div>
+    </body>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script type="text/javascript">
+        var app = new Vue({
+            el: '#app',
+            data () {
+                return {
+                    //代表五个小球
+                    balls: [
+                        {
+                            show: false
+                        },
+                        {
+                            show: false
+                        },
+                        {
+                            show: false
+                        },
+                        {
+                            show: false
+                        },
+                        {
+                            show: false
+                        }
+                    ],
+                    //代表正在运行的小球
+                    dropBall: [],
+                    food: {
+                        count: 0
+                    }
+                }
+            },
+            computed: {
+                totalPrice () {
+                    return this.food.count * 10
+                },
+                pay () {
+                    if(this.food.count * 10 < 20) {
+                        return '￥20元起送'
+                    }else{
+                        return '去结算'
+                    }
+                }
+            },
+            methods: {
+                //点击加入购物车
+                addFirst (event) {
+                    this.drop(event.target)
+                    this.food.count++
+                },
+                decreaseCart () {
+                    this.food.count--
+                },
+                drop(el) {
+                    for(let i=0; i<this.balls.length; i++) {
+                        let ball = this.balls[i]
+                        if(!ball.show) {
+                            ball.show = true
+                            ball.el = el
+                            this.dropBall.push(ball)
+                            return
+                        }
+                    }
+                },
+                //小球显示的时候出发动画
+                beforeEnter (el) {
+                    let count = this.balls.length
+                    while(count--) {
+                        let ball = this.balls[count]
+                        if(ball.show) {
+                            // 获得点击处相对于浏览器的位置
+                            let rect = ball.el.getBoundingClientRect()
+                            // 小球要移动的横坐标
+                            let x = rect.left - 32
+                            // 小球要移动的纵坐标
+                            let y = -(window.innerHeight - rect.top - 22)
+                            el.style.webkitTransform = 'translate3d(0,' + y +'px,0)'
+                            el.style.transform = 'translate3d(0,'+ y +'px,0)'
+                            let inner = el.getElementsByClassName('inner-hook')[0]
+                            inner.style.webkitTransform = 'translate3d('+ x +'px,0,0)'
+                            inner.style.transform = 'translate3d('+ x +'px,0,0)' 
+                        } 
+                    }
+                },
+                enter(el) {
+                    //进入的时候页面进行重绘(获取dom的某些属性就回进行页面重绘)
+                    let rf = el.offsetHeight
+                    this.$nextTick(()=>{
+                        el.style.webkitTransform = 'translate3d(0,0,0)'
+                        el.style.transform = 'translate3d(0,0,0)'
+                        let inner = el.getElementsByClassName('inner-hook')[0]
+                        inner.style.webkitTransform = 'translate3d(0,0,0)'
+                        inner.style.transform = 'translate3d(0,0,0)'
+                    })
+                },
+                afterEnter(el) {
+                    let ball = this.dropBall.shift()
+                    if(ball){
+                        ball.show = false
+                        el.style.display = 'none'
+                    }
+                }
+            }
+        })
+    </script>
+</html>
